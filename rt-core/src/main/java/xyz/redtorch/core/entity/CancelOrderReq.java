@@ -69,4 +69,60 @@ public class CancelOrderReq  implements Serializable{
 				+ ", rtSymbol=" + rtSymbol + ", orderID=" + orderID + ", frontID=" + frontID + ", sessionID="
 				+ sessionID + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + frontID;
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		result = prime * result + ((orderID == null) ? 0 : orderID.hashCode());
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		result = prime * result + sessionID;
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CancelOrderReq other = (CancelOrderReq) obj;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (frontID != other.frontID)
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (orderID == null) {
+			if (other.orderID != null)
+				return false;
+		} else if (!orderID.equals(other.orderID))
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (sessionID != other.sessionID)
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		return true;
+	}
+	
+	
 }

@@ -24,8 +24,10 @@ public class StrategySetting implements Serializable{
 	private Map<String,String> paramMap = new HashMap<>(); // 运行时不可变参数列表
 	private Map<String,String> varMap = new HashMap<>(); //运行时可变参数字典
 	
-	private List<gatewaySetting> gateways; //接口设置,回测,订阅相关
+	private List<GatewaySetting> gateways; //接口设置,回测,订阅相关
 	private List<ContractSetting> contracts; //合约设置,回测,交易仓位相关
+	
+	private String version;
 	
 	/**
 	 * 在使用前务必执行此方法,校正相关数据项
@@ -47,11 +49,11 @@ public class StrategySetting implements Serializable{
 		paramMap = Collections.unmodifiableMap(paramMap);
 	}
 	
-	public gatewaySetting getGatewaySetting(String gatewayID) {
-		for(gatewaySetting gatewaySetting:gateways) {
+	public GatewaySetting getGatewaySetting(String gatewayID) {
+		for(GatewaySetting GatewaySetting:gateways) {
 			
-			if(gatewaySetting.getGatewayID().equals(gatewayID)) {
-				return gatewaySetting;
+			if(GatewaySetting.getGatewayID().equals(gatewayID)) {
+				return GatewaySetting;
 			}
 		}
 		return null;
@@ -135,10 +137,10 @@ public class StrategySetting implements Serializable{
 	public void setVarMap(Map<String, String> varMap) {
 		this.varMap = varMap;
 	}
-	public List<gatewaySetting> getGateways() {
+	public List<GatewaySetting> getGateways() {
 		return gateways;
 	}
-	public void setGateways(List<gatewaySetting> gateways) {
+	public void setGateways(List<GatewaySetting> gateways) {
 		this.gateways = gateways;
 	}
 	public List<ContractSetting> getContracts() {
@@ -147,8 +149,14 @@ public class StrategySetting implements Serializable{
 	public void setContracts(List<ContractSetting> contracts) {
 		this.contracts = contracts;
 	}
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-	public static class gatewaySetting implements Serializable {
+	public static class GatewaySetting implements Serializable {
 
 		private static final long serialVersionUID = -8397027643670882941L;
 		private String gatewayID; // 接口ID

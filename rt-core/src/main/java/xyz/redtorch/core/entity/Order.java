@@ -39,12 +39,14 @@ public class Order implements Serializable{
 	private int frontID; // 前置机编号
 	private int sessionID; // 连接编号
 	
+	private String originalOrderID;
+	
 	public Order() {}
 	
 	public void setAllValue(String gatewayID, String symbol, String exchange, String rtSymbol, String orderID, String rtOrderID,
 			String direction, String offset, double price, int totalVolume, int tradedVolume, String status,
 			String tradingDay, String orderDate, String orderTime, String cancelTime, String activeTime,
-			String updateTime, int frontID, int sessionID) {
+			String updateTime, int frontID, int sessionID, String originalOrderID) {
 		this.gatewayID = gatewayID;
 		this.symbol = symbol;
 		this.exchange = exchange;
@@ -65,6 +67,7 @@ public class Order implements Serializable{
 		this.updateTime = updateTime;
 		this.frontID = frontID;
 		this.sessionID = sessionID;
+		this.originalOrderID = originalOrderID;
 	}
 	
 	public String getGatewayID() {
@@ -188,6 +191,14 @@ public class Order implements Serializable{
 		this.updateTime = updateTime;
 	}
 
+	public String getOriginalOrderID() {
+		return originalOrderID;
+	}
+
+	public void setOriginalOrderID(String originalOrderID) {
+		this.originalOrderID = originalOrderID;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [gatewayID=" + gatewayID + ", symbol=" + symbol + ", exchange=" + exchange + ", rtSymbol="
@@ -195,7 +206,139 @@ public class Order implements Serializable{
 				+ ", offset=" + offset + ", price=" + price + ", totalVolume=" + totalVolume + ", tradedVolume="
 				+ tradedVolume + ", status=" + status + ", tradingDay=" + tradingDay + ", orderDate=" + orderDate
 				+ ", orderTime=" + orderTime + ", cancelTime=" + cancelTime + ", activeTime=" + activeTime
-				+ ", updateTime=" + updateTime + ", frontID=" + frontID + ", sessionID=" + sessionID + "]";
+				+ ", updateTime=" + updateTime + ", frontID=" + frontID + ", sessionID=" + sessionID + ", originalOrderID="
+				+ originalOrderID + "]";
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activeTime == null) ? 0 : activeTime.hashCode());
+		result = prime * result + ((cancelTime == null) ? 0 : cancelTime.hashCode());
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + frontID;
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		result = prime * result + ((offset == null) ? 0 : offset.hashCode());
+		result = prime * result + ((orderDate == null) ? 0 : orderDate.hashCode());
+		result = prime * result + ((orderID == null) ? 0 : orderID.hashCode());
+		result = prime * result + ((orderTime == null) ? 0 : orderTime.hashCode());
+		result = prime * result + ((originalOrderID == null) ? 0 : originalOrderID.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((rtOrderID == null) ? 0 : rtOrderID.hashCode());
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		result = prime * result + sessionID;
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result + totalVolume;
+		result = prime * result + tradedVolume;
+		result = prime * result + ((tradingDay == null) ? 0 : tradingDay.hashCode());
+		result = prime * result + ((updateTime == null) ? 0 : updateTime.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Order other = (Order) obj;
+		if (activeTime == null) {
+			if (other.activeTime != null)
+				return false;
+		} else if (!activeTime.equals(other.activeTime))
+			return false;
+		if (cancelTime == null) {
+			if (other.cancelTime != null)
+				return false;
+		} else if (!cancelTime.equals(other.cancelTime))
+			return false;
+		if (direction == null) {
+			if (other.direction != null)
+				return false;
+		} else if (!direction.equals(other.direction))
+			return false;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (frontID != other.frontID)
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (offset == null) {
+			if (other.offset != null)
+				return false;
+		} else if (!offset.equals(other.offset))
+			return false;
+		if (orderDate == null) {
+			if (other.orderDate != null)
+				return false;
+		} else if (!orderDate.equals(other.orderDate))
+			return false;
+		if (orderID == null) {
+			if (other.orderID != null)
+				return false;
+		} else if (!orderID.equals(other.orderID))
+			return false;
+		if (orderTime == null) {
+			if (other.orderTime != null)
+				return false;
+		} else if (!orderTime.equals(other.orderTime))
+			return false;
+		if (originalOrderID == null) {
+			if (other.originalOrderID != null)
+				return false;
+		} else if (!originalOrderID.equals(other.originalOrderID))
+			return false;
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
+			return false;
+		if (rtOrderID == null) {
+			if (other.rtOrderID != null)
+				return false;
+		} else if (!rtOrderID.equals(other.rtOrderID))
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (sessionID != other.sessionID)
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (totalVolume != other.totalVolume)
+			return false;
+		if (tradedVolume != other.tradedVolume)
+			return false;
+		if (tradingDay == null) {
+			if (other.tradingDay != null)
+				return false;
+		} else if (!tradingDay.equals(other.tradingDay))
+			return false;
+		if (updateTime == null) {
+			if (other.updateTime != null)
+				return false;
+		} else if (!updateTime.equals(other.updateTime))
+			return false;
+		return true;
+	}
 }

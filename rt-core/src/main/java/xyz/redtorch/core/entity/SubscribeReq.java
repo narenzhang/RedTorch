@@ -21,6 +21,7 @@ public class SubscribeReq  implements Serializable{
 	private String expiry; // 到期日
 	private double strikePrice; // 行权价
 	private String optionType; // 期权类型
+	
 	public String getGatewayID() {
 		return gatewayID;
 	}
@@ -80,6 +81,76 @@ public class SubscribeReq  implements Serializable{
 		return "SubscribeReq [gatewayID=" + gatewayID + ", symbol=" + symbol + ", exchange=" + exchange + ", rtSymbol="
 				+ rtSymbol + ", productClass=" + productClass + ", currency=" + currency + ", expiry=" + expiry
 				+ ", strikePrice=" + strikePrice + ", optionType=" + optionType + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((currency == null) ? 0 : currency.hashCode());
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + ((expiry == null) ? 0 : expiry.hashCode());
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		result = prime * result + ((optionType == null) ? 0 : optionType.hashCode());
+		result = prime * result + ((productClass == null) ? 0 : productClass.hashCode());
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(strikePrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubscribeReq other = (SubscribeReq) obj;
+		if (currency == null) {
+			if (other.currency != null)
+				return false;
+		} else if (!currency.equals(other.currency))
+			return false;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (expiry == null) {
+			if (other.expiry != null)
+				return false;
+		} else if (!expiry.equals(other.expiry))
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (optionType == null) {
+			if (other.optionType != null)
+				return false;
+		} else if (!optionType.equals(other.optionType))
+			return false;
+		if (productClass == null) {
+			if (other.productClass != null)
+				return false;
+		} else if (!productClass.equals(other.productClass))
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (Double.doubleToLongBits(strikePrice) != Double.doubleToLongBits(other.strikePrice))
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		return true;
 	}
 
 }

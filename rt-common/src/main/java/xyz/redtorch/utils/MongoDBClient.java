@@ -23,6 +23,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
@@ -140,9 +141,9 @@ public class MongoDBClient {
 	 */
 	public boolean upsert(String dbName, String collectionName, Document document,Document filter) {
 		if (document != null) {
-			UpdateOptions updateOptions = new UpdateOptions();
-			updateOptions.upsert(true);
-			mongoClient.getDatabase(dbName).getCollection(collectionName).replaceOne(filter, document, updateOptions);
+			ReplaceOptions replaceOptions = new ReplaceOptions();
+			replaceOptions.upsert(true);
+			mongoClient.getDatabase(dbName).getCollection(collectionName).replaceOne(filter, document, replaceOptions);
 			return true;
 		}
 		return false;
@@ -422,7 +423,7 @@ public class MongoDBClient {
 	 * @return
 	 */
 	public long getCount(String dbName, String collectionName) {
-		return getDatabase(dbName).getCollection(collectionName).count();
+		return getDatabase(dbName).getCollection(collectionName).countDocuments();
 	}
 
 	/**

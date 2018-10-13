@@ -2,13 +2,13 @@ package xyz.redtorch.web.service.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import xyz.redtorch.utils.CommonUtil;
 import xyz.redtorch.web.service.TokenService;
 
 /**
@@ -30,7 +30,7 @@ public class TokenServiceImpl implements TokenService {
 	public String login(String username, String password) {
 		
 		if(usernameConf!=null && usernameConf.equals(username)&& passwordConf!=null&& passwordConf.equals(password)) {
-			String token = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+			String token = CommonUtil.generateUuidAsBase64();
 			tokenMap.put(token, username);
 			log.info("用户{}登录成功,Token-{}",username,token);
 			return token;

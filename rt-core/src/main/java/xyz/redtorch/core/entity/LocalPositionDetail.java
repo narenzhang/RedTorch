@@ -2,7 +2,6 @@ package xyz.redtorch.core.entity;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import xyz.redtorch.core.base.RtConstant;
 
@@ -13,14 +12,6 @@ public class LocalPositionDetail implements Serializable{
 	
 	private static final long serialVersionUID = 3912578572233290138L;
 	
-	private HashSet<String> WORKING_STATUS = new HashSet<String>() {
-		private static final long serialVersionUID = -2273398861717690036L;
-		{
-			add(RtConstant.STATUS_UNKNOWN);
-			add(RtConstant.STATUS_NOTTRADED);
-			add(RtConstant.STATUS_PARTTRADED);
-		}
-	};
 	public LocalPositionDetail(String gatewayID,String gatewayDisplayName, String exchange, String rtSymbol, String symbol, String contractName,int contractSize){
 		this.rtSymbol = rtSymbol;
 		this.gatewayID = gatewayID;
@@ -267,7 +258,7 @@ public class LocalPositionDetail implements Serializable{
 	 */
 	public void updateOrder(Order order) {
 		// 将活动委托缓存下来
-		if (WORKING_STATUS.contains(order.getStatus())) {
+		if (RtConstant.STATUS_WORKING.contains(order.getStatus())) {
 			workingOrderMap.put(order.getRtOrderID(), order);
 
 			// 移除缓存中已经完成的委托
@@ -434,7 +425,7 @@ public class LocalPositionDetail implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "LocalPositionDetail [WORKING_STATUS=" + WORKING_STATUS + ", rtSymbol=" + rtSymbol + ", gatewayID="
+		return "LocalPositionDetail [rtSymbol=" + rtSymbol + ", gatewayID="
 				+ gatewayID + ", gatewayDisplayName=" + gatewayDisplayName + ", symbol=" + symbol + ", contractName="
 				+ contractName + ", contractSize=" + contractSize + ", exchange=" + exchange + ", longPos=" + longPos
 				+ ", longYd=" + longYd + ", longTd=" + longTd + ", longPosFrozen=" + longPosFrozen + ", longYdFrozen="
@@ -443,6 +434,125 @@ public class LocalPositionDetail implements Serializable{
 				+ shortPosFrozen + ", shortYdFrozen=" + shortYdFrozen + ", shortTdFrozen=" + shortTdFrozen
 				+ ", shortPnl=" + shortPnl + ", shortPrice=" + shortPrice + ", lastPrice=" + lastPrice
 				+ ", workingOrderMap=" + workingOrderMap + "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((contractName == null) ? 0 : contractName.hashCode());
+		result = prime * result + contractSize;
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + ((gatewayDisplayName == null) ? 0 : gatewayDisplayName.hashCode());
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(lastPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(longPnl);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + longPos;
+		result = prime * result + longPosFrozen;
+		temp = Double.doubleToLongBits(longPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + longTd;
+		result = prime * result + longTdFrozen;
+		result = prime * result + longYd;
+		result = prime * result + longYdFrozen;
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		temp = Double.doubleToLongBits(shortPnl);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + shortPos;
+		result = prime * result + shortPosFrozen;
+		temp = Double.doubleToLongBits(shortPrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + shortTd;
+		result = prime * result + shortTdFrozen;
+		result = prime * result + shortYd;
+		result = prime * result + shortYdFrozen;
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result + ((workingOrderMap == null) ? 0 : workingOrderMap.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LocalPositionDetail other = (LocalPositionDetail) obj;
+		if (contractName == null) {
+			if (other.contractName != null)
+				return false;
+		} else if (!contractName.equals(other.contractName))
+			return false;
+		if (contractSize != other.contractSize)
+			return false;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (gatewayDisplayName == null) {
+			if (other.gatewayDisplayName != null)
+				return false;
+		} else if (!gatewayDisplayName.equals(other.gatewayDisplayName))
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (Double.doubleToLongBits(lastPrice) != Double.doubleToLongBits(other.lastPrice))
+			return false;
+		if (Double.doubleToLongBits(longPnl) != Double.doubleToLongBits(other.longPnl))
+			return false;
+		if (longPos != other.longPos)
+			return false;
+		if (longPosFrozen != other.longPosFrozen)
+			return false;
+		if (Double.doubleToLongBits(longPrice) != Double.doubleToLongBits(other.longPrice))
+			return false;
+		if (longTd != other.longTd)
+			return false;
+		if (longTdFrozen != other.longTdFrozen)
+			return false;
+		if (longYd != other.longYd)
+			return false;
+		if (longYdFrozen != other.longYdFrozen)
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (Double.doubleToLongBits(shortPnl) != Double.doubleToLongBits(other.shortPnl))
+			return false;
+		if (shortPos != other.shortPos)
+			return false;
+		if (shortPosFrozen != other.shortPosFrozen)
+			return false;
+		if (Double.doubleToLongBits(shortPrice) != Double.doubleToLongBits(other.shortPrice))
+			return false;
+		if (shortTd != other.shortTd)
+			return false;
+		if (shortTdFrozen != other.shortTdFrozen)
+			return false;
+		if (shortYd != other.shortYd)
+			return false;
+		if (shortYdFrozen != other.shortYdFrozen)
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (workingOrderMap == null) {
+			if (other.workingOrderMap != null)
+				return false;
+		} else if (!workingOrderMap.equals(other.workingOrderMap))
+			return false;
+		return true;
 	}
 
 }

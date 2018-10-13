@@ -138,6 +138,7 @@ public class TdSpi extends CThostFtdcTraderSpi {
 
 	private HashMap<String, String> contractExchangeMap;
 	private HashMap<String, Integer> contractSizeMap;
+	private HashMap<String,String> originalOrderIDMap = new HashMap<>();
 
 	TdSpi(CtpGateway ctpGateway) {
 
@@ -335,6 +336,10 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		// }
 		String rtOrderID = gatewayID + "." + orderRef.get();
 
+		if(StringUtils.isNotBlank(orderReq.getOriginalOrderID())) {
+			originalOrderIDMap.put(rtOrderID,orderReq.getOriginalOrderID());
+		}
+		
 		return rtOrderID;
 	}
 
@@ -507,9 +512,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		String activeTime = null;
 		String updateTime = null;
 
+		String originalOrderID = originalOrderIDMap.get(rtOrderID);
+		
 		ctpGateway.emitOrder(gatewayID, symbol, exchange, rtSymbol, orderID, rtOrderID, direction, offset, price,
 				totalVolume, tradedVolume, status, tradingDay, orderDate, orderTime, cancelTime, activeTime, updateTime,
-				frontID, sessionID);
+				frontID, sessionID,originalOrderID);
 
 		// 发送委托事件
 		log.error("{}交易接口发单错误回报(柜台)! ErrorID:{},ErrorMsg:{}", gatewayLogInfo, pRspInfo.getErrorID(),
@@ -918,9 +925,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		String activeTime = pOrder.getActiveTime();
 		String updateTime = pOrder.getUpdateTime();
 
+		String originalOrderID = originalOrderIDMap.get(rtOrderID);
+		
 		ctpGateway.emitOrder(gatewayID, symbol, exchange, rtSymbol, orderID, rtOrderID, direction, offset, price,
 				totalVolume, tradedVolume, status, tradingDay, orderDate, orderTime, cancelTime, activeTime, updateTime,
-				frontID, sessionID);
+				frontID, sessionID, originalOrderID);
 
 	}
 
@@ -966,7 +975,9 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		String tradeTime = pTrade.getTradeTime();
 		DateTime dateTime = null;
 
-		ctpGateway.emitTrade(gatewayID, symbol, exchange, rtSymbol, tradeID, rtTradeID, orderID, rtOrderID, direction,
+		String originalOrderID = originalOrderIDMap.get(rtOrderID);
+		
+		ctpGateway.emitTrade(gatewayID, symbol, exchange, rtSymbol, tradeID, rtTradeID, orderID, rtOrderID, originalOrderID, direction,
 				offset, price, volume, tradingDay, tradeDate, tradeTime, dateTime);
 	}
 
@@ -991,9 +1002,11 @@ public class TdSpi extends CThostFtdcTraderSpi {
 		String activeTime = null;
 		String updateTime = null;
 
+		String originalOrderID = originalOrderIDMap.get(rtOrderID);
+		
 		ctpGateway.emitOrder(gatewayID, symbol, exchange, rtSymbol, orderID, rtOrderID, direction, offset, price,
 				totalVolume, tradedVolume, status, tradingDay, orderDate, orderTime, cancelTime, activeTime, updateTime,
-				frontID, sessionID);
+				frontID, sessionID, originalOrderID);
 		log.error("{}交易接口发单错误回报（交易所）! ErrorID:{},ErrorMsg:{}", gatewayLogInfo, pRspInfo.getErrorID(),
 				pRspInfo.getErrorMsg());
 

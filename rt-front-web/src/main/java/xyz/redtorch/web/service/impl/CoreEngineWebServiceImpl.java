@@ -199,10 +199,7 @@ public class CoreEngineWebServiceImpl implements CoreEngineWebService {
 	@Override
 	public void saveOrUpdateGatewaySetting(GatewaySetting gatewaySetting) {
 		if (StringUtils.isEmpty(gatewaySetting.getGatewayID())) {
-			String[] tdAddressArray = gatewaySetting.getTdAddress().split("\\.");
-			String tdAddressSuffix = tdAddressArray[tdAddressArray.length - 1].replaceAll(":", "\\.");
-			gatewaySetting.setGatewayID(gatewaySetting.getBrokerID() + "." + gatewaySetting.getGatewayDisplayName()
-					+ "." + tdAddressSuffix);
+			gatewaySetting.setGatewayID(CommonUtil.generateUuidAsBase64());
 		} else {
 			coreEngineService.deleteGateway(gatewaySetting.getGatewayID());
 		}

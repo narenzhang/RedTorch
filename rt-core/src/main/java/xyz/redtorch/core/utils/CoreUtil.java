@@ -31,9 +31,9 @@ public class CoreUtil {
 			FastEvent fastEvent = ringBuffer.get(sequence); // Get the entry in the Disruptor for the sequence
 			fastEvent.setEvent(event);
 			fastEvent.setEventType(EventConstant.EVENT_LOG);
-			fastEvent.getLogData().setLogTimestamp(timestmap);
-			fastEvent.getLogData().setLogLevel(logLevel);
-			fastEvent.getLogData().setLogContent(logContent);
+			fastEvent.getLogData().setTimestamp(timestmap);
+			fastEvent.getLogData().setLevel(logLevel);
+			fastEvent.getLogData().setContent(logContent);
 		} finally {
 			ringBuffer.publish(sequence);
 		}

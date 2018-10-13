@@ -677,10 +677,10 @@
                     <el-main style="padding:8px 0px;">
                         <el-row>
                             <el-col :span='24'>
-                                <el-button size="mini" type="primary" plain @click="loadZeusStrategy">加载策略</el-button>
                                 <el-button size="mini" type="success" plain @click="changeZeusStrategyStatus('','initAll')">全部初始化</el-button>
                                 <el-button size="mini" type="danger" plain @click="changeZeusStrategyStatus('','startAll')">全部启动</el-button>
                                 <el-button size="mini" type="warning" plain @click="changeZeusStrategyStatus('','stopAll')">全部停止</el-button>
+                                <el-button size="mini" type="warning" plain @click="changeZeusStrategyStatus('','stopAll')">全部销毁重新加载</el-button>
                                 <el-button size="mini" type="primary" plain @click="getZeusStrategy">刷新</el-button>
                                 <!--<el-button type="info" plain>保持持仓</el-button>-->
                             </el-col>
@@ -689,11 +689,14 @@
                                     <div class="itemName">
                                         <b>策略名称</b>=[ {{item.strategyName}} ]
                                         <b>策略ID</b>=[ {{item.strategyID}} ] 初始化状态:
-                                        <el-tag type="success" v-if="item.initStatus">{{item.initStatus}}</el-tag>
-                                        <el-tag type="danger" v-else>{{item.initStatus}}</el-tag>
+                                        <el-tag type="success" v-if="item.initStatus">已初始化</el-tag>
+                                        <el-tag type="danger" v-else>未初始化</el-tag>
                                         交易状态:
-                                        <el-tag type="success" v-if="item.trading">{{item.trading}}</el-tag>
-                                        <el-tag type="danger" v-else>{{item.trading}}</el-tag>
+                                        <el-tag type="success" v-if="item.trading">交易中</el-tag>
+                                        <el-tag type="danger" v-else>已停止</el-tag>
+                                        加载状态:
+                                        <el-tag type="success" v-if="item.isLoaded">已加载</el-tag>
+                                        <el-tag type="danger" v-else>未加载</el-tag>
 
                                         <el-button size="mini" :id="item.strategyID" round @click="changeZeusStrategyStatus(item.strategyID,'init')">初始化</el-button>
                                         <el-button size="mini" round @click="changeZeusStrategyStatus(item.strategyID,'start')">启动</el-button>
@@ -1505,17 +1508,20 @@
                     case "start":
                         action = "启动"
                         break;
-                    case "initAll":
-                        action = "初始化"
-                        break;
-                    case "stopAll":
-                        action = "停止"
-                        break;
-                    case "startAll":
-                        action = "启动"
-                        break;
                     case "reload":
                         action = "销毁重新加载"
+                        break;
+                    case "initAll":
+                        action = "全部初始化"
+                        break;
+                    case "stopAll":
+                        action = "全部停止"
+                        break;
+                    case "startAll":
+                        action = "全部启动"
+                        break;
+                    case "reloadAll":
+                        action = "全部销毁重新加载"
                         break;
                 }
 
@@ -1566,43 +1572,6 @@
                 });
 
 
-            },
-            loadZeusStrategy() {
-
-                if (this.config.token == undefined || this.config.token == "") {
-                    this.$alert('请先登录', '警告', {
-                        confirmButtonText: '确定',
-                    });
-                    return;
-                }
-
-                const that = this;
-                axios.get(host + '/zeus/loadStrategy?token=' + that.config.token)
-                    .then(res => {
-                        if (res.data.resultCode == "success") {
-                            that.$message({
-                                message: '加载策略指令已发送',
-                                type: 'success'
-                            });
-                            that.getZeusStrategy();
-                        } else {
-                            that.$notify({
-                                title: '警告',
-                                message: '加载策略指令失败，服务器未返回成功',
-                                type: 'warning',
-                                duration: 4500
-                            });
-                        }
-                    }).catch(err => {
-
-                        console.log(err);
-                        that.$notify({
-                            title: '错误',
-                            message: '加载策略指令失败，发生异常',
-                            type: 'error',
-                            duration: 0,
-                        });
-                    })
             },
             getZeusStrategy() {
 

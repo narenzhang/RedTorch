@@ -92,24 +92,24 @@ public interface Gateway {
 	 * 发送Tick事件
 	 * @param tick
 	 */
-	void emitTick(String gatewayID, String symbol, String exchange, String rtSymbol, String tradingDay, String actionDay,
-			String actionTime, DateTime dateTime, Integer status, Double lastPrice, Integer lastVolume, Integer volume,
-			Double openInterest, Long preOpenInterest, Double preClosePrice, Double preSettlePrice, Double openPrice,
-			Double highPrice, Double lowPrice, Double upperLimit, Double lowerLimit, Double bidPrice1, Double bidPrice2,
-			Double bidPrice3, Double bidPrice4, Double bidPrice5, Double bidPrice6, Double bidPrice7, Double bidPrice8,
-			Double bidPrice9, Double bidPrice10, Double askPrice1, Double askPrice2, Double askPrice3, Double askPrice4,
-			Double askPrice5, Double askPrice6, Double askPrice7, Double askPrice8, Double askPrice9, Double askPrice10,
-			Integer bidVolume1, Integer bidVolume2, Integer bidVolume3, Integer bidVolume4, Integer bidVolume5,
-			Integer bidVolume6, Integer bidVolume7, Integer bidVolume8, Integer bidVolume9, Integer bidVolume10,
-			Integer askVolume1, Integer askVolume2, Integer askVolume3, Integer askVolume4, Integer askVolume5,
-			Integer askVolume6, Integer askVolume7, Integer askVolume8, Integer askVolume9, Integer askVolume10);
+	public void emitTick(String gatewayID, String symbol, String exchange, String rtSymbol, String tradingDay, String actionDay,
+			String actionTime, DateTime dateTime, Integer status, double lastPrice, Integer lastVolume, Integer volume,
+			double openInterest, long preOpenInterest, double preClosePrice, double preSettlePrice, double openPrice,
+			double highPrice, double lowPrice, double upperLimit, double lowerLimit, double bidPrice1, double bidPrice2,
+			double bidPrice3, double bidPrice4, double bidPrice5, double bidPrice6, double bidPrice7, double bidPrice8,
+			double bidPrice9, double bidPrice10, double askPrice1, double askPrice2, double askPrice3, double askPrice4,
+			double askPrice5, double askPrice6, double askPrice7, double askPrice8, double askPrice9, double askPrice10,
+			int bidVolume1, int bidVolume2, int bidVolume3, int bidVolume4, int bidVolume5,
+			int bidVolume6, int bidVolume7, int bidVolume8, int bidVolume9, int bidVolume10,
+			int askVolume1, int askVolume2, int askVolume3, int askVolume4, int askVolume5,
+			int askVolume6, int askVolume7, int askVolume8, int askVolume9, int askVolume10);
 
 	/**
 	 * 发送成交事件
 	 * @param trade
 	 */
 	void emitTrade(String gatewayID, String symbol, String exchange, String rtSymbol, String tradeID, String rtTradeID,
-			String orderID, String rtOrderID, String direction, String offset, double price, int volume,
+			String orderID, String rtOrderID,String originalOrderID, String direction, String offset, double price, int volume,
 			String tradingDay, String tradeDate, String tradeTime, DateTime dateTime);
 	
 	/**
@@ -119,7 +119,7 @@ public interface Gateway {
 	void emitOrder(String gatewayID, String symbol, String exchange, String rtSymbol, String orderID, String rtOrderID,
 			String direction, String offset, double price, int totalVolume, int tradedVolume, String status,
 			String tradingDay, String orderDate, String orderTime, String cancelTime, String activeTime,
-			String updateTime, int frontID, int sessionID);
+			String updateTime, int frontID, int sessionID,String originalOrderID);
 	
 	/**
 	 * 获取配置 

@@ -70,6 +70,9 @@ public class CoreEngineServiceImpl extends FastEventDynamicHandlerAbstract imple
 	private Map<String, Set<String>> subscriberRelationshipMap = new HashMap<>();
 
 	private Map<String, HashSet<SubscribeReq>> subscribeReqSetMap = new HashMap<>();
+	
+
+	private HashMap<String,String> originalOrderIDMap = new HashMap<>();
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -333,6 +336,9 @@ public class CoreEngineServiceImpl extends FastEventDynamicHandlerAbstract imple
 		Gateway gateway = getGateway(orderReq.getGatewayID());
 		if (gateway != null) {
 			String rtOrderID = gateway.sendOrder(orderReq);
+			if(StringUtils.isNotBlank(rtOrderID)&&StringUtils.isNotBlank(orderReq.getOriginalOrderID())){
+				originalOrderIDMap.put(rtOrderID, orderReq.getOriginalOrderID());
+			}
 			// 更新到本地持仓
 			updateOrderReq(orderReq, rtOrderID);
 			return rtOrderID;

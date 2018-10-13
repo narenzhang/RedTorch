@@ -13,7 +13,7 @@ public class Account implements Serializable{
 
 	// 账号代码相关
 	private String accountID; // 账户代码
-	private String rtAccountID; // 账户在vt中的唯一代码,通常是 Gateway名.账户代码
+	private String rtAccountID; // 账户在RedTorch中的唯一代码,通常是 Gateway名.账户代码
 
 	// 数值相关
 	private double preBalance; // 昨日账户结算净值
@@ -90,5 +90,68 @@ public class Account implements Serializable{
 				+ commission + ", margin=" + margin + ", closeProfit=" + closeProfit + ", positionProfit="
 				+ positionProfit + "]";
 	}
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((accountID == null) ? 0 : accountID.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(available);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(balance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(closeProfit);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(commission);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		temp = Double.doubleToLongBits(margin);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(positionProfit);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(preBalance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((rtAccountID == null) ? 0 : rtAccountID.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Account other = (Account) obj;
+		if (accountID == null) {
+			if (other.accountID != null)
+				return false;
+		} else if (!accountID.equals(other.accountID))
+			return false;
+		if (Double.doubleToLongBits(available) != Double.doubleToLongBits(other.available))
+			return false;
+		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
+			return false;
+		if (Double.doubleToLongBits(closeProfit) != Double.doubleToLongBits(other.closeProfit))
+			return false;
+		if (Double.doubleToLongBits(commission) != Double.doubleToLongBits(other.commission))
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (Double.doubleToLongBits(margin) != Double.doubleToLongBits(other.margin))
+			return false;
+		if (Double.doubleToLongBits(positionProfit) != Double.doubleToLongBits(other.positionProfit))
+			return false;
+		if (Double.doubleToLongBits(preBalance) != Double.doubleToLongBits(other.preBalance))
+			return false;
+		if (rtAccountID == null) {
+			if (other.rtAccountID != null)
+				return false;
+		} else if (!rtAccountID.equals(other.rtAccountID))
+			return false;
+		return true;
+	}
 }

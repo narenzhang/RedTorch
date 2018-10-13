@@ -32,7 +32,6 @@ import xyz.redtorch.core.entity.Order;
 import xyz.redtorch.core.entity.OrderReq;
 import xyz.redtorch.core.entity.Tick;
 import xyz.redtorch.core.entity.Trade;
-import xyz.redtorch.core.service.extend.event.FastEvent;
 import xyz.redtorch.core.zeus.BacktestingEngine;
 import xyz.redtorch.core.zeus.ZeusConstant;
 import xyz.redtorch.core.zeus.ZeusDataService;
@@ -43,7 +42,7 @@ import xyz.redtorch.core.zeus.strategy.Strategy;
 import xyz.redtorch.core.zeus.strategy.StrategySetting;
 import xyz.redtorch.core.zeus.strategy.StrategySetting.ContractSetting;
 import xyz.redtorch.core.zeus.strategy.StrategySetting.TradeGatewaySetting;
-import xyz.redtorch.core.zeus.strategy.StrategySetting.gatewaySetting;
+import xyz.redtorch.core.zeus.strategy.StrategySetting.GatewaySetting;
 import xyz.redtorch.utils.CommonUtil;
 
 /**
@@ -122,7 +121,7 @@ public class BacktestingEngineImpl implements BacktestingEngine {
 	}
 
 	@Override
-	public String sendOrder(OrderReq orderReq, Strategy strategy) {
+	public void sendOrder(OrderReq orderReq) {
 
 		String orderReqJsonString = JSON.toJSONString(orderReq);
 		log.info("发送委托{}", orderReqJsonString);
@@ -140,11 +139,11 @@ public class BacktestingEngineImpl implements BacktestingEngine {
 		order.setGatewayID(orderReq.getGatewayID());
 		order.setDirection(orderReq.getDirection());
 		order.setOffset(orderReq.getOffset());
+		order.setOriginalOrderID(orderReq.getOriginalOrderID());
 
 		workingLimitOrderMap.put(orderID, order);
 		limitOrderMap.put(orderID, order);
 
-		return orderID;
 
 	}
 
@@ -329,7 +328,7 @@ public class BacktestingEngineImpl implements BacktestingEngine {
 
 			List<String> subscribeRtSymbolList = new ArrayList<>();
 
-			for (gatewaySetting gateway : strategySetting.getGateways()) {
+			for (GatewaySetting gateway : strategySetting.getGateways()) {
 				subscribeRtSymbolList.addAll(gateway.getSubscribeRtSymbols());
 			}
 
@@ -1166,7 +1165,7 @@ public class BacktestingEngineImpl implements BacktestingEngine {
 
 				String filePath = backtestingOutputDir + File.separator + "DailyResult" + File.separator + "SN__"
 						+ strategy.getName() + File.separator + "SID__" + strategy.getID() + File.separator + "GID__"
-						+ gatewayID + "__C__" + rtSymbol + ".csv";
+						+ gatewayID + "__C__" + rtSymbol + "_Daily.csv";
 				try {
 					FileUtils.forceMkdirParent(new File(filePath));
 				} catch (IOException ioe) {
@@ -1182,83 +1181,8 @@ public class BacktestingEngineImpl implements BacktestingEngine {
 		}
 	}
 
-	@Override
-	public void emitErrorLog(String logContent) {
-		log.error("E_LOG|ZEUS--"+logContent);
-	}
-
-	@Override
-	public void emitWarnLog(String logContent) {
-		log.warn("E_LOG|ZEUS--"+logContent);
-	}
-
-	@Override
-	public void emitInfoLog(String logContent) {
-		log.info("E_LOG|ZEUS--"+logContent);
-	}
-
-	@Override
-	public void emitDebugLog(String logContent) {
-		log.debug("E_LOG|ZEUS--"+logContent);
-	}
 	
 	///////////////////////////// ↓↓↓↓↓↓↓回测不需要实现的方法↓↓↓↓↓↓↓////////////////////////////
-	@Override
-	public void onTick(Tick tick) {
-	}
-
-	@Override
-	public void onOrder(Order order) {
-	}
-
-	@Override
-	public void onTrade(Trade trade) {
-	}
-
-	@Override
-	public void createStrategyClassInstance(StrategySetting strategySetting) {
-	}
-
-	@Override
-	public void unloadStrategy(String strategyID) {
-	}
-
-	@Override
-	public void loadStartegy() {
-	}
-
-	@Override
-	public void loadStartegy(String strategyID) {
-	}
-
-	@Override
-	public void initStrategy(String strategyID) {
-	}
-
-	@Override
-	public void startStrategy(String strategyID) {
-	}
-
-	@Override
-	public void stopStrategy(String strategyID) {
-	}
-
-	@Override
-	public void initAllStrategy() {
-	}
-
-	@Override
-	public void startAllStrategy() {
-	}
-
-	@Override
-	public void stopAllStrategy() {
-	}
-
-	@Override
-	public List<Strategy> getStragetyList() {
-		return null;
-	}
 
 	@Override
 	public double getPriceTick(String rtSymbol, String gatewayID) {
@@ -1275,44 +1199,6 @@ public class BacktestingEngineImpl implements BacktestingEngine {
 		return null;
 	}
 
-	@Override
-	public void awaitShutdown() throws InterruptedException {
-	}
-
-	@Override
-	public void onEvent(FastEvent event, long sequence, boolean endOfBatch) throws Exception {
-		
-	}
-
-	@Override
-	public void onStart() {
-		
-	}
-
-	@Override
-	public void onShutdown() {
-		
-	}
-	@Override
-	public List<String> getSubscribedEventList() {
-		return null;
-	}
-
-	@Override
-	public Set<String> getSubscribedEventSet() {
-		return null;
-	}
-
-	@Override
-	public void subscribeEvent(String event) {
-		
-	}
-
-	@Override
-	public void unsubscribeEvent(String event) {
-		
-	}
-	
 	///////////////////////////// ↑↑↑↑↑↑↑回测不需要实现的方法↑↑↑↑↑↑↑////////////////////////////
 
 

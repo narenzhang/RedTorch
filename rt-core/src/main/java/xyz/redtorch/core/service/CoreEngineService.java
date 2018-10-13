@@ -124,13 +124,13 @@ public interface CoreEngineService extends FastEventDynamicHandler{
 
 	/**
 	 * 向DB中增加接口
-	 * @param gatewaySetting
+	 * @param GatewaySetting
 	 */
 	void saveGateway(GatewaySetting gatewaySetting);
 	
 	/**
 	 * 更新DB中的接口（如果已经加载会先断开）
-	 * @param gatewaySetting
+	 * @param GatewaySetting
 	 */
 	void updateGateway(GatewaySetting gatewaySetting);
 	
@@ -217,5 +217,6 @@ public interface CoreEngineService extends FastEventDynamicHandler{
 	 * @return
 	 */
 	List<LogData> getLogDatas();
+	
 
 }

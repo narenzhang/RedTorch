@@ -18,12 +18,10 @@ public class SocketIOCommandLineRunner implements CommandLineRunner {
 
     private final SocketIOServer socketIOServer;  
     
-    
     @Autowired  
     public SocketIOCommandLineRunner(SocketIOServer socketIOServer) {  
         this.socketIOServer = socketIOServer;  
     }  
-  
   
     @Override  
     public void run(String... args) throws Exception {  

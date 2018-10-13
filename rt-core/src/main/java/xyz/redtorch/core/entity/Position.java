@@ -112,4 +112,75 @@ public class Position  implements Serializable{
 				+ price + ", rtPositionName=" + rtPositionName + ", ydPosition=" + ydPosition + ", positionProfit="
 				+ positionProfit + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + frozen;
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		result = prime * result + position;
+		long temp;
+		temp = Double.doubleToLongBits(positionProfit);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(price);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((rtPositionName == null) ? 0 : rtPositionName.hashCode());
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result + ydPosition;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (direction == null) {
+			if (other.direction != null)
+				return false;
+		} else if (!direction.equals(other.direction))
+			return false;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (frozen != other.frozen)
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (position != other.position)
+			return false;
+		if (Double.doubleToLongBits(positionProfit) != Double.doubleToLongBits(other.positionProfit))
+			return false;
+		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
+			return false;
+		if (rtPositionName == null) {
+			if (other.rtPositionName != null)
+				return false;
+		} else if (!rtPositionName.equals(other.rtPositionName))
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (ydPosition != other.ydPosition)
+			return false;
+		return true;
+	}
 }

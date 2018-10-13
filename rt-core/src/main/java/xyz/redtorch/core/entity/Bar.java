@@ -23,13 +23,13 @@ public class Bar implements Serializable{
     private String actionTime;       // 时间(HHmmssSSS)
     private DateTime dateTime;
 
-    private Double open = 0d;
-    private Double high = 0d;
-    private Double low = 0d;
-    private Double close = 0d;
+    private double open = 0d;
+    private double high = 0d;
+    private double low = 0d;
+    private double close = 0d;
     
-    private Integer volume = 0;          // 成交量
-    private Double openInterest = 0d;    // 持仓量
+    private int volume = 0;          // 成交量
+    private double openInterest = 0d;    // 持仓量
 	public String getGatewayID() {
 		return gatewayID;
 	}
@@ -78,40 +78,40 @@ public class Bar implements Serializable{
 	public void setDateTime(DateTime dateTime) {
 		this.dateTime = dateTime;
 	}
-	public Double getOpen() {
+	public double getOpen() {
 		return open;
 	}
-	public void setOpen(Double open) {
+	public void setOpen(double open) {
 		this.open = open;
 	}
-	public Double getHigh() {
+	public double getHigh() {
 		return high;
 	}
-	public void setHigh(Double high) {
+	public void setHigh(double high) {
 		this.high = high;
 	}
-	public Double getLow() {
+	public double getLow() {
 		return low;
 	}
-	public void setLow(Double low) {
+	public void setLow(double low) {
 		this.low = low;
 	}
-	public Double getClose() {
+	public double getClose() {
 		return close;
 	}
-	public void setClose(Double close) {
+	public void setClose(double close) {
 		this.close = close;
 	}
-	public Integer getVolume() {
+	public int getVolume() {
 		return volume;
 	}
-	public void setVolume(Integer volume) {
+	public void setVolume(int volume) {
 		this.volume = volume;
 	}
-	public Double getOpenInterest() {
+	public double getOpenInterest() {
 		return openInterest;
 	}
-	public void setOpenInterest(Double openInterest) {
+	public void setOpenInterest(double openInterest) {
 		this.openInterest = openInterest;
 	}
 	@Override
@@ -121,5 +121,94 @@ public class Bar implements Serializable{
 				+ ", dateTime=" + dateTime + ", open=" + open + ", high=" + high + ", low=" + low + ", close=" + close
 				+ ", volume=" + volume + ", openInterest=" + openInterest + "]";
 	}
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((actionDay == null) ? 0 : actionDay.hashCode());
+		result = prime * result + ((actionTime == null) ? 0 : actionTime.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(close);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		temp = Double.doubleToLongBits(high);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(low);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(open);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(openInterest);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result + ((tradingDay == null) ? 0 : tradingDay.hashCode());
+		result = prime * result + volume;
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bar other = (Bar) obj;
+		if (actionDay == null) {
+			if (other.actionDay != null)
+				return false;
+		} else if (!actionDay.equals(other.actionDay))
+			return false;
+		if (actionTime == null) {
+			if (other.actionTime != null)
+				return false;
+		} else if (!actionTime.equals(other.actionTime))
+			return false;
+		if (Double.doubleToLongBits(close) != Double.doubleToLongBits(other.close))
+			return false;
+		if (dateTime == null) {
+			if (other.dateTime != null)
+				return false;
+		} else if (!dateTime.equals(other.dateTime))
+			return false;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (Double.doubleToLongBits(high) != Double.doubleToLongBits(other.high))
+			return false;
+		if (Double.doubleToLongBits(low) != Double.doubleToLongBits(other.low))
+			return false;
+		if (Double.doubleToLongBits(open) != Double.doubleToLongBits(other.open))
+			return false;
+		if (Double.doubleToLongBits(openInterest) != Double.doubleToLongBits(other.openInterest))
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (tradingDay == null) {
+			if (other.tradingDay != null)
+				return false;
+		} else if (!tradingDay.equals(other.tradingDay))
+			return false;
+		if (volume != other.volume)
+			return false;
+		return true;
+	}
+	
 }

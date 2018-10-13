@@ -6,12 +6,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSON;
 
 import xyz.redtorch.core.base.RtConstant;
 import xyz.redtorch.core.entity.Bar;
@@ -20,9 +19,6 @@ import xyz.redtorch.core.entity.Order;
 import xyz.redtorch.core.entity.OrderReq;
 import xyz.redtorch.core.entity.Tick;
 import xyz.redtorch.core.entity.Trade;
-import xyz.redtorch.core.service.extend.event.EventConstant;
-import xyz.redtorch.core.service.extend.event.FastEvent;
-import xyz.redtorch.core.service.extend.event.FastEventDynamicHandlerAbstract;
 import xyz.redtorch.core.zeus.ZeusConstant;
 import xyz.redtorch.core.zeus.ZeusEngineService;
 import xyz.redtorch.core.zeus.entity.ContractPositionDetail;
@@ -35,10 +31,10 @@ import xyz.redtorch.utils.CommonUtil;
 /**
  * 策略基本实现抽象类
  * 
- * @author Administrator
+ * @author sun0x00@gmail.com
  *
  */
-public abstract class StrategyAbstract extends FastEventDynamicHandlerAbstract implements Strategy {
+public abstract class StrategyAbstract implements Strategy {
 	private static final Logger log = LoggerFactory.getLogger(StrategyAbstract.class);
 
 	protected String id; // 策略ID
@@ -82,28 +78,6 @@ public abstract class StrategyAbstract extends FastEventDynamicHandlerAbstract i
 		 */
 		initContractPositionMap();
 
-	}
-
-	@Override
-	public void onEvent(final FastEvent fastEvent, final long sequence, final boolean endOfBatch) throws Exception {
-
-		if (!subscribedEventSet.contains(fastEvent.getEvent())) {
-			return;
-		}
-		// 判断消息类型
-		if (EventConstant.EVENT_TICK.equals(fastEvent.getEventType())) {
-			Tick tick = fastEvent.getTick();
-			processTick(tick);
-
-		} else if (EventConstant.EVENT_TRADE.equals(fastEvent.getEventType())) {
-			Trade trade = fastEvent.getTrade();
-			processTrade(trade);
-		} else if (EventConstant.EVENT_ORDER.equals(fastEvent.getEventType())) {
-			Order order = fastEvent.getOrder();
-			processOrder(order);
-		} else {
-			log.warn("{} 未能识别的事件数据类型{}", logStr, JSON.toJSONString(fastEvent.getEvent()));
-		}
 	}
 
 	/**
@@ -177,16 +151,6 @@ public abstract class StrategyAbstract extends FastEventDynamicHandlerAbstract i
 		}
 	}
 
-	@Override
-	public void onStart() {
-
-	}
-
-	@Override
-	public void onShutdown() {
-		shutdownLatch.countDown();
-	}
-
 	/**
 	 * 停止交易
 	 */
@@ -227,6 +191,12 @@ public abstract class StrategyAbstract extends FastEventDynamicHandlerAbstract i
 			log.error(logStr + "调用onInit发生异常!",e);
 		}
 	}
+	
+	/**
+	 * 销毁通知，一般用于重新加载策略
+	 */
+	@Override
+	public void destroy(){}
 
 	@Override
 	public void saveStrategySetting() {
@@ -316,13 +286,17 @@ public abstract class StrategyAbstract extends FastEventDynamicHandlerAbstract i
 			orderReq.setOffset(RtConstant.OFFSET_CLOSEYESTERDAY);
 		}
 
-		String rtOrderID = zeusEngineService.sendOrder(orderReq, this);
+		// 这里可以考虑换为更快的唯一ID生成方式 TODO
+		String originalOrderID = UUID.randomUUID().toString();
+		orderReq.setOriginalOrderID(originalOrderID);
+		
+		zeusEngineService.sendOrder(orderReq);
 
 		if (contractPositionMap.containsKey(rtSymbol)) {
-			contractPositionMap.get(rtSymbol).updateOrderReq(orderReq, rtOrderID);
+			contractPositionMap.get(rtSymbol).updateOrderReq(orderReq);
 		}
 
-		return rtOrderID;
+		return originalOrderID;
 	}
 
 	@Override

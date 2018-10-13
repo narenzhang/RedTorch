@@ -105,4 +105,89 @@ public class Contract  implements Serializable{
 				+ priceTick + ", strikePrice=" + strikePrice + ", underlyingSymbol=" + underlyingSymbol
 				+ ", optionType=" + optionType + ", expiryDate=" + expiryDate + "]";
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((exchange == null) ? 0 : exchange.hashCode());
+		result = prime * result + ((expiryDate == null) ? 0 : expiryDate.hashCode());
+		result = prime * result + ((gatewayID == null) ? 0 : gatewayID.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((optionType == null) ? 0 : optionType.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(priceTick);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((productClass == null) ? 0 : productClass.hashCode());
+		result = prime * result + ((rtSymbol == null) ? 0 : rtSymbol.hashCode());
+		result = prime * result + size;
+		temp = Double.doubleToLongBits(strikePrice);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((symbol == null) ? 0 : symbol.hashCode());
+		result = prime * result + ((underlyingSymbol == null) ? 0 : underlyingSymbol.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Contract other = (Contract) obj;
+		if (exchange == null) {
+			if (other.exchange != null)
+				return false;
+		} else if (!exchange.equals(other.exchange))
+			return false;
+		if (expiryDate == null) {
+			if (other.expiryDate != null)
+				return false;
+		} else if (!expiryDate.equals(other.expiryDate))
+			return false;
+		if (gatewayID == null) {
+			if (other.gatewayID != null)
+				return false;
+		} else if (!gatewayID.equals(other.gatewayID))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (optionType == null) {
+			if (other.optionType != null)
+				return false;
+		} else if (!optionType.equals(other.optionType))
+			return false;
+		if (Double.doubleToLongBits(priceTick) != Double.doubleToLongBits(other.priceTick))
+			return false;
+		if (productClass == null) {
+			if (other.productClass != null)
+				return false;
+		} else if (!productClass.equals(other.productClass))
+			return false;
+		if (rtSymbol == null) {
+			if (other.rtSymbol != null)
+				return false;
+		} else if (!rtSymbol.equals(other.rtSymbol))
+			return false;
+		if (size != other.size)
+			return false;
+		if (Double.doubleToLongBits(strikePrice) != Double.doubleToLongBits(other.strikePrice))
+			return false;
+		if (symbol == null) {
+			if (other.symbol != null)
+				return false;
+		} else if (!symbol.equals(other.symbol))
+			return false;
+		if (underlyingSymbol == null) {
+			if (other.underlyingSymbol != null)
+				return false;
+		} else if (!underlyingSymbol.equals(other.underlyingSymbol))
+			return false;
+		return true;
+	}
+	
+	
 }

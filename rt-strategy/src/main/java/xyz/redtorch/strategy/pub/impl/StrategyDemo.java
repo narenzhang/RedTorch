@@ -1,4 +1,6 @@
-package xyz.redtorch.strategy.routine.pub.impl;
+package xyz.redtorch.strategy.pub.impl;
+
+import com.alibaba.fastjson.JSON;
 
 import xyz.redtorch.core.entity.Bar;
 import xyz.redtorch.core.entity.Order;
@@ -35,6 +37,13 @@ public class StrategyDemo extends StrategyAbstract{
 
 	@Override
 	public void onTick(Tick tick) throws Exception {
+		Integer i = 0;
+		if(strategySetting.getVarMap().containsKey("testTick")) {
+			i = Integer.valueOf(strategySetting.getVarMap().get("testTick"));
+		}
+		i++;
+		setVarValue("testTick", i+"");
+		System.out.println(JSON.toJSONString(tick));
 	}
 
 	@Override
@@ -47,29 +56,29 @@ public class StrategyDemo extends StrategyAbstract{
 		i++;
 		setVarValue("testBar", i+"");
 		
-		int timeTest = bar.getDateTime().getMinuteOfHour() + bar.getDateTime().getHourOfDay()*100;
-		
-		String icSymbol = strategySetting.getContractByAlias("IC").getRtSymbol();
-		String ihSymbol = strategySetting.getContractByAlias("IH").getRtSymbol();
-		if(timeTest == 945 && trading) {
-			if(bar.getRtSymbol().equals(icSymbol)) {
-				buyByPreset(icSymbol, bar.getClose()+1);
-			}else if(bar.getRtSymbol().equals(ihSymbol)) {
-				sellShortByPreset(ihSymbol, bar.getClose()-1);
-			}
-		}else if(timeTest == 1315 && trading) {
-			if(bar.getRtSymbol().equals(icSymbol)) {
-				sellByPosition(icSymbol, bar.getClose()-1);
-			}else if(bar.getRtSymbol().equals(ihSymbol)) {
-				buyToCoverByPosition(ihSymbol, bar.getClose()+1);
-			}
-		}else if(timeTest == 1445 && trading) {
-			if(bar.getRtSymbol().equals(icSymbol)) {
-				buyByPreset(icSymbol, bar.getClose()+1);
-			}else if(bar.getRtSymbol().equals(ihSymbol)) {
-				sellShortByPreset(ihSymbol, bar.getClose()-1);
-			}
-		}
+//		int timeTest = bar.getDateTime().getMinuteOfHour() + bar.getDateTime().getHourOfDay()*100;
+//		
+//		String icSymbol = strategySetting.getContractByAlias("IC").getRtSymbol();
+//		String ihSymbol = strategySetting.getContractByAlias("IH").getRtSymbol();
+//		if(timeTest == 945 && trading) {
+//			if(bar.getRtSymbol().equals(icSymbol)) {
+//				buyByPreset(icSymbol, bar.getClose()+1);
+//			}else if(bar.getRtSymbol().equals(ihSymbol)) {
+//				sellShortByPreset(ihSymbol, bar.getClose()-1);
+//			}
+//		}else if(timeTest == 1315 && trading) {
+//			if(bar.getRtSymbol().equals(icSymbol)) {
+//				sellByPosition(icSymbol, bar.getClose()-1);
+//			}else if(bar.getRtSymbol().equals(ihSymbol)) {
+//				buyToCoverByPosition(ihSymbol, bar.getClose()+1);
+//			}
+//		}else if(timeTest == 1445 && trading) {
+//			if(bar.getRtSymbol().equals(icSymbol)) {
+//				buyByPreset(icSymbol, bar.getClose()+1);
+//			}else if(bar.getRtSymbol().equals(ihSymbol)) {
+//				sellShortByPreset(ihSymbol, bar.getClose()-1);
+//			}
+//		}
 		
 	}
 

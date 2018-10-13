@@ -34,8 +34,6 @@ public class MongoDBServiceImpl implements MongoDBService,InitializingBean{
 	private String minute_db_name;
 	@Value("${mongodb.instance.md.dbname.tick}")
 	private String tick_db_name;
-//	public final static String DAILY_DB_NAME = BaseConfig.rtConfig.getString("mongodb.instance.md.dbname.daily");
-//	public final static String DEFAULT_DB_NAME = RtConstant.RED_TORCH_DB_NAME+"_"+BaseConfig.rtConfig.getString("rt.client.id");
 	
 
 	private MongoDBClient mdDBClient;//行情数据库客户端

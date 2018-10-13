@@ -14,11 +14,6 @@ import xyz.redtorch.utils.MongoDBClient;
  */
 public interface MongoDBService {
 
-//	public final static String MINUTE_DB_NAME = BaseConfig.rtConfig.getString("mongodb.instance.md.dbname.minute");
-//	public final static String TICK_DB_NAME = BaseConfig.rtConfig.getString("mongodb.instance.md.dbname.tick");
-//	public final static String DAILY_DB_NAME = BaseConfig.rtConfig.getString("mongodb.instance.md.dbname.daily");
-//	public final static String DEFAULT_DB_NAME = RtConstant.RED_TORCH_DB_NAME+"_"+BaseConfig.rtConfig.getString("rt.client.id");
-
 	List<Bar> loadBarDataList(DateTime startDateTime, DateTime endDateTime, String rtSymbol);
 
 	List<Tick> loadTickDataList(DateTime startDateTime, DateTime endDateTime, String rtSymbol);

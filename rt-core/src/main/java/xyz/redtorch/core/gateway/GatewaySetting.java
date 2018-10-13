@@ -1,9 +1,14 @@
 package xyz.redtorch.core.gateway;
 
+import java.io.Serializable;
+
 /**
  * @author sun0x00@gmail.com
  */
-public class GatewaySetting {
+public class GatewaySetting implements Serializable{
+
+	private static final long serialVersionUID = 4779933491540999914L;
+	
 	String gatewayID;
 	String gatewayDisplayName;
 	String userID;

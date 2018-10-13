@@ -430,7 +430,7 @@ public class ContractPositionDetail implements Serializable{
 		pos = longPos - shortPos;
 
 		if (pos == 0 && longPos != 0) {
-			isLocked = false;
+			isLocked = true;
 		} else {
 			isLocked = false;
 		}
@@ -459,7 +459,8 @@ public class ContractPositionDetail implements Serializable{
 	 * @param orderReq
 	 * @param rtOrderID
 	 */
-	public void updateOrderReq(OrderReq orderReq, String rtOrderID) {
+	public void updateOrderReq(OrderReq orderReq) {
+		//, String rtOrderID
 		String gatewayID = orderReq.getGatewayID();
 		PositionDetail positionDetail;
 		if (positionDetailMap.containsKey(gatewayID)) {
@@ -470,7 +471,7 @@ public class ContractPositionDetail implements Serializable{
 			positionDetailMap.put(gatewayID, positionDetail);
 		}
 
-		positionDetail.updateOrderReq(orderReq, rtOrderID);
+		positionDetail.updateOrderReq(orderReq);
 
 		calculatePosition();
 

@@ -43,7 +43,7 @@ public class FastEventEngineServiceImpl implements FastEventEngineService,Initia
     
     private  RingBuffer<FastEvent> ringBuffer;
 
-    @Value("engine.event.FastEventEngine.WaitStrategy")
+    @Value("${engine.event.FastEventEngine.WaitStrategy}")
     private String waitStrategy;
     
 	@Override

@@ -376,12 +376,12 @@ public class PositionDetail implements Serializable {
 	public void updateOrder(Order order) {
 		// 将活动委托缓存下来
 		if (RtConstant.STATUS_WORKING.contains(order.getStatus())) {
-			workingOrderMap.put(order.getRtOrderID(), order);
+			workingOrderMap.put(order.getOriginalOrderID(), order);
 
 			// 移除缓存中已经完成的委托
 		} else {
-			if (workingOrderMap.containsKey(order.getRtOrderID())) {
-				workingOrderMap.remove(order.getRtOrderID());
+			if (workingOrderMap.containsKey(order.getOriginalOrderID())) {
+				workingOrderMap.remove(order.getOriginalOrderID());
 			}
 		}
 
@@ -394,9 +394,9 @@ public class PositionDetail implements Serializable {
 	 * 
 	 * @param orderReq
 	 */
-	public void updateOrderReq(OrderReq orderReq, String rtOrderID) {
+	public void updateOrderReq(OrderReq orderReq) {
 		// orderReq如果存在则跳过
-		if(workingOrderMap.containsKey(rtOrderID)) {
+		if(workingOrderMap.containsKey(orderReq.getOriginalOrderID())) {
 			return;
 		}
 		// 基于请求创建委托对象
@@ -409,9 +409,9 @@ public class PositionDetail implements Serializable {
 		order.setTotalVolume(orderReq.getVolume());
 		order.setStatus(RtConstant.STATUS_UNKNOWN);
 		order.setGatewayID(orderReq.getGatewayID());
-		order.setRtOrderID(rtOrderID);
+		order.setOriginalOrderID(orderReq.getOriginalOrderID());
 
-		workingOrderMap.put(rtOrderID, order);
+		workingOrderMap.put(order.getOriginalOrderID(), order);
 
 		calculateFrozen();
 

@@ -6,23 +6,22 @@ import xyz.redtorch.core.entity.Bar;
 import xyz.redtorch.core.entity.Order;
 import xyz.redtorch.core.entity.Tick;
 import xyz.redtorch.core.entity.Trade;
-import xyz.redtorch.core.service.extend.event.FastEventDynamicHandler;
 import xyz.redtorch.core.zeus.entity.ContractPositionDetail;
 import xyz.redtorch.core.zeus.entity.StopOrder;
 
 /**
  * @author sun0x00@gmail.com
  */
-public interface Strategy extends FastEventDynamicHandler {
+public interface Strategy {
 	
 	/**
-	 * 返回策略ID
+	 * 获取策略ID
 	 * @return
 	 */
 	String getID();
-
+	
 	/**
-	 * 返回策略名
+	 * 获取策略名称
 	 * @return
 	 */
 	String getName();
@@ -54,6 +53,11 @@ public interface Strategy extends FastEventDynamicHandler {
 	 * @param isException 是否因异常触发
 	 */
 	void stopTrading(boolean isException);
+	
+	/**
+	 * 销毁通知
+	 */
+	void destroy();
 	
 	/**
 	 * 是否已经初始化
@@ -142,7 +146,7 @@ public interface Strategy extends FastEventDynamicHandler {
 	
 	
 	/**
-	 * 获取日志便捷字符串
+	 * 获取日志拼接字符串
 	 * @return
 	 */
 	String getLogStr();

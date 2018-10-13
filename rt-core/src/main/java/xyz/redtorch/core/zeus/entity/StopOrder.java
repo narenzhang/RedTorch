@@ -18,6 +18,7 @@ public class StopOrder  implements Serializable{
 	
 	private String stopOrderID;
 	private String status;
+	
 	public String getGatewayID() {
 		return gatewayID;
 	}
@@ -78,6 +79,7 @@ public class StopOrder  implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
 	@Override
 	public String toString() {
 		return "StopOrder [gatewayID=" + gatewayID + ", rtSymbol=" + rtSymbol + ", orderType=" + orderType

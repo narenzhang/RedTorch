@@ -1,7 +1,10 @@
 package xyz.redtorch.gateway.ctp;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +23,8 @@ import xyz.redtorch.utils.CommonUtil;
 public class CtpGateway extends GatewayAbstract {
 
 	private static Logger log = LoggerFactory.getLogger(CtpGateway.class);
+	
+	private Timer timer = new Timer();
 
 	static {
 		try {
@@ -74,6 +79,7 @@ public class CtpGateway extends GatewayAbstract {
 
 	public CtpGateway(FastEventEngineService fastEventEngineService,GatewaySetting gatewaySetting) {
 		super(fastEventEngineService, gatewaySetting);
+		timer.schedule(new QueryTimerTask(), new Date(), 1000);
 	}
 
 	public HashMap<String, String> getContractExchangeMap() {
@@ -155,6 +161,25 @@ public class CtpGateway extends GatewayAbstract {
 	@Override
 	public boolean isConnected() {
 		return tdSpi != null && mdSpi != null && tdSpi.isConnected() && mdSpi.isConnected();
+	}
+	
+	class QueryTimerTask extends TimerTask{
+
+	    @Override
+	    public void run() {
+	    	try {
+		    	if(isConnected()) {
+			        queryAccount();
+		    	}
+			    Thread.sleep(1250);
+			    if(isConnected()) {
+				    queryPosition();
+			    }
+			    Thread.sleep(1250);
+	    	}catch (Exception e) {
+				log.error(gatewayLogInfo+"定时查询发生异常",e);
+			}
+	    }
 	}
 
 }

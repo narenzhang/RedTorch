@@ -60,7 +60,7 @@ public class ZeusDataServiceImpl implements ZeusDataService,InitializingBean {
 			for (Document document : documentList) {
 				String strategyID = document.getString("strategyID");
 				if (StringUtils.isEmpty(strategyID)) {
-					log.error(logStr + "根据策略ID[" + strategyID + "]查出的记录解析出错,未找到策略ID!");
+					log.error(logStr + "查出的记录解析出错,未找到策略ID,跳过!");
 					continue;
 				}
 				StrategySetting strategySetting = coverDocumentToStrategySetting(strategyID, document);
